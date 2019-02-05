@@ -6,7 +6,6 @@ Vue.component('product', {
      }
     },
     template: `
-
     <div class="product">
 
         <div class="product-image">
@@ -30,15 +29,10 @@ Vue.component('product', {
             @mouseover="updateProduct(index)">
         </div>
 
-        <div class="cart">
-          <p>Cart({{cart}})</p>
-        </div>
-
         <button v-on:click="addToCart"
                 :disabled="!inStock"
                 :class="{ disabledButton: !inStock }">Add to Cart</button>
         </div>
-
 
     </div>`,
     data(){
@@ -61,13 +55,13 @@ Vue.component('product', {
                     variantImage: "./assets/vmSocks-blue-onWhite.jpg",
                     variantQuantity: 0
                 }
-            ],
-            cart: 0,
+            ]
+            
             }
     },
     methods: {
             addToCart: function() {
-                this.cart += 1
+                this.$emit('add-to-cart',this.variants[this.selectedVariant].variantId )
             },
             updateProduct: function(index) {
                 this.selectedVariant = index
@@ -96,6 +90,12 @@ Vue.component('product', {
 var app = new Vue({
         el: '#app',
         data: {
-            premium: true
+            premium: false,
+            cart: []
+        },
+        methods: {
+            updateCart(id) {
+                this.cart.push(id)
+            }
         }
     })
